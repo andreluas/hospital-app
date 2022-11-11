@@ -3,6 +3,8 @@ package br.com.hospitalapp.server.dtos;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.validation.constraints.PastOrPresent;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class AppointmentDTO {
@@ -10,6 +12,7 @@ public class AppointmentDTO {
     private UUID appointmentId;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
+    @PastOrPresent
     private Date date;
 
     private UUID doctorId;
