@@ -8,7 +8,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-import br.com.hospitalapp.server.dtos.AppointmentByDoctorsDTO;
 import br.com.hospitalapp.server.dtos.AppointmentDTO;
 import br.com.hospitalapp.server.models.AppointmentModel;
 
@@ -33,7 +32,4 @@ public interface AppointmentMapper {
     @Mapping(target = "doctor.doctorId", source = "appointmentDTO.doctorId")
     AppointmentModel toAppointmentModel(AppointmentDTO appointmentDTO,
             @MappingTarget AppointmentModel appointmentModel);
-
-    @Mapping(target = "doctor", source = "doctor")
-    List<AppointmentByDoctorsDTO> entityListToAppDocDTO(List<AppointmentModel> listAll);
 }

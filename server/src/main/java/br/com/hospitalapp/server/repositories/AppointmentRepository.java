@@ -22,12 +22,4 @@ public interface AppointmentRepository extends JpaRepository<AppointmentModel, U
 
     @Query("SELECT obj FROM AppointmentModel obj WHERE (obj.date) BETWEEN (:startIn) and (:endIn) ORDER BY (obj.date)")
     List<AppointmentModel> searchBetweenDates(Date startIn, Date endIn);
-
-    @Query("SELECT DISTINCT obj.doctor FROM AppointmentModel obj INNER JOIN obj.doctor WHERE (obj.date) BETWEEN (:startIn) and (:endIn)")
-    List<AppointmentModel> searchDoctorsBetweenDate(Date startIn, Date endIn);
-
-    // @Query(nativeQuery = true, value = "SELECT * FROM TB_APPOINTMENTS WHERE
-    // TB_APPOINTMENTS.date BETWEEN (:startIn) and (:endIn) GROUP BY
-    // TB_APPOINTMENTS.doctor_id")
-    // List<AppointmentModel> searchDoctorsBetweenDate(Date startIn, Date endIn);
 }

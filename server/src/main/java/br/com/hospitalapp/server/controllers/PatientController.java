@@ -61,6 +61,12 @@ public class PatientController {
         return ResponseEntity.ok().body(PatientDTO);
     }
 
+    @GetMapping(value = "/by-doctor/{doctorId}")
+    public ResponseEntity<List<PatientDTO>> searchDoctorsWorked(@PathVariable UUID doctorId) {
+        List<PatientDTO> list = service.searchPatientByDoctor(doctorId);
+        return ResponseEntity.ok().body(list);
+    }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);

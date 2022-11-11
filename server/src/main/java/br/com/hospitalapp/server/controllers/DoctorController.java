@@ -1,6 +1,7 @@
 package br.com.hospitalapp.server.controllers;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -52,6 +54,19 @@ public class DoctorController {
     public ResponseEntity<DoctorDTO> findByCpf(@PathVariable String cpf) {
         DoctorDTO dto = service.findByCpf(cpf);
         return ResponseEntity.ok().body(dto);
+    }
+
+    @GetMapping(value = "/worked")
+    public ResponseEntity<List<DoctorDTO>> searchDoctorsWorked(@RequestParam Date startIn,
+            @RequestParam Date endIn) {
+        List<DoctorDTO> list = service.searchDoctorsWorked(startIn, endIn);
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping(value = "/by-patient/{patientId}")
+    public ResponseEntity<List<DoctorDTO>> searchDoctorsWorked(@PathVariable UUID patientId) {
+        List<DoctorDTO> list = service.searchDoctorsByPatient(patientId);
+        return ResponseEntity.ok().body(list);
     }
 
     @PutMapping(value = "/{id}")

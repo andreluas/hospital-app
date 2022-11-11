@@ -15,10 +15,12 @@ import br.com.hospitalapp.server.dtos.PatientDTO;
 import br.com.hospitalapp.server.enums.RoleName;
 import br.com.hospitalapp.server.mapper.PatientMapper;
 import br.com.hospitalapp.server.models.AppointmentModel;
+import br.com.hospitalapp.server.models.DoctorModel;
 import br.com.hospitalapp.server.models.PatientModel;
 import br.com.hospitalapp.server.models.RoleModel;
 import br.com.hospitalapp.server.models.UserModel;
 import br.com.hospitalapp.server.repositories.AppointmentRepository;
+import br.com.hospitalapp.server.repositories.DoctorRepository;
 import br.com.hospitalapp.server.repositories.PatientRepository;
 import br.com.hospitalapp.server.repositories.RoleRepository;
 import br.com.hospitalapp.server.repositories.UserRepository;
@@ -41,6 +43,9 @@ public class PatientService {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
 
     @Autowired
     private PatientMapper mapper;
@@ -83,6 +88,17 @@ public class PatientService {
         Optional<PatientModel> op = patientRepository.findByCpf(cpf);
         PatientModel entity = op.orElseThrow(() -> new ResourceNotFoundException("CPF not found " + cpf));
         return mapper.entityToDTO(entity);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PatientDTO> searchPatientByDoctor(UUID doctorId) {
+        Optional<DoctorModel> opDoctor = doctorRepository.findById(doctorId);
+        DoctorModel doctor = opDoctor.orElseThrow(() -> new ResourceNotFoundException("Doctor not found"));
+        List<PatientModel> list = patientRepository.searchPatientByDoctor(doctor);
+        if (list.size() == 0) {
+            throw new ResourceNotFoundException("No doctors for this patient");
+        }
+        return mapper.entityListToDtoList(list);
     }
 
     public PatientDTO update(UUID id, PatientDTO dto) {

@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.hospitalapp.server.dtos.AppointmentByDoctorsDTO;
 import br.com.hospitalapp.server.dtos.AppointmentDTO;
 import br.com.hospitalapp.server.services.AppointmentService;
 
@@ -50,13 +49,6 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentDTO>> searchBetweenDates(@RequestParam Date startIn,
             @RequestParam Date endIn) {
         List<AppointmentDTO> list = service.searchBetweenDates(startIn, endIn);
-        return ResponseEntity.ok().body(list);
-    }
-
-    @GetMapping(value = "/doctor")
-    public ResponseEntity<List<AppointmentByDoctorsDTO>> searchDoctorsBetweenDate(@RequestParam Date startIn,
-            @RequestParam Date endIn) {
-        List<AppointmentByDoctorsDTO> list = service.searchDoctorsBetweenDate(startIn, endIn);
         return ResponseEntity.ok().body(list);
     }
 

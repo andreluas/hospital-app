@@ -8,8 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,12 +22,10 @@ public class AppointmentModel implements Serializable {
 
     private Date date;
 
-    @OneToOne
-    @JoinColumn(name = "doctor_id", referencedColumnName = "doctorId")
+    @ManyToOne
     private DoctorModel doctor;
 
-    @OneToOne
-    @JoinColumn(name = "patient_id", referencedColumnName = "patientId")
+    @ManyToOne
     private PatientModel patient;
 
     private String observations;

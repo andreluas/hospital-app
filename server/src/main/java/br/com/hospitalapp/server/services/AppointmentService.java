@@ -1,6 +1,5 @@
 package br.com.hospitalapp.server.services;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -10,11 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.hospitalapp.server.dtos.AppointmentByDoctorsDTO;
 import br.com.hospitalapp.server.dtos.AppointmentDTO;
-import br.com.hospitalapp.server.dtos.DoctorDTO;
 import br.com.hospitalapp.server.mapper.AppointmentMapper;
-import br.com.hospitalapp.server.mapper.DoctorMapper;
 import br.com.hospitalapp.server.models.AppointmentModel;
 import br.com.hospitalapp.server.models.DoctorModel;
 import br.com.hospitalapp.server.models.PatientModel;
@@ -37,9 +33,6 @@ public class AppointmentService {
 
     @Autowired
     private AppointmentMapper mapper;
-
-    @Autowired
-    private DoctorMapper doctorMapper;
 
     @Transactional
     public AppointmentDTO insert(AppointmentDTO dto) {
@@ -67,25 +60,6 @@ public class AppointmentService {
             throw new ResourceNotFoundException("No appointments on this date");
         }
         return mapper.entityListToDtoList(list);
-    }
-
-    @Transactional(readOnly = true)
-    public List<AppointmentByDoctorsDTO> searchDoctorsBetweenDate(Date startIn, Date endIn) {
-        List<AppointmentModel> list = appointmentRepository.searchDoctorsBetweenDate(startIn, endIn);
-        
-        if (list.size() == 0) {
-            throw new ResourceNotFoundException("nada por aqui...");
-        }
-
-        List<AppointmentByDoctorsDTO> listDTO = new ArrayList<>();
-        for (AppointmentModel appointmentModel : list) {
-            AppointmentByDoctorsDTO dto = new AppointmentByDoctorsDTO();
-            DoctorDTO doctorDTO = doctorMapper.entityToDTO(appointmentModel.getDoctor());
-            dto.setDoctor(doctorDTO);
-            listDTO.add(dto);
-        }
-
-        return listDTO;
     }
 
     @Transactional(readOnly = true)
